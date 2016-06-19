@@ -11,5 +11,5 @@ File when we create cube and get the result.
 ## Output
 
 1. Print all cube.
-2. Print sums of all colums from 3 areas.
+2. Print sums of all columns from 3 areas.
 3. Print the result.
