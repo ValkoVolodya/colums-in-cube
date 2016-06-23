@@ -1,9 +1,16 @@
+//avoid ambiquity and sloppy errors
 'use strict';
 
+/**
+ * Returns random value from range [min, max)
+ */
 function getRandom(min, max){
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+/**
+ * Returns 3D array with given dimensions
+ */
 function create3DArray(d1, d2) {
   var arr = [];
 
@@ -17,6 +24,9 @@ function create3DArray(d1, d2) {
   return arr;
 }
 
+/**
+ * Returns 2D array with given dimension
+ */
 function create2DArray(d){
   var arr = [];
 
@@ -27,22 +37,31 @@ function create2DArray(d){
   return arr;
 }
 
+/**
+ * Prints array
+ */
 function printArray(tdArray){
   tdArray.forEach(function(item, i){
     console.log(item);
   });
 }
 
-function init(tdArray){
+/**
+ * Initializes 3D array with random values in range [min, max)
+ */
+function init(tdArray, min, max){
   for(var i = 0; i < tdArray.length; i++){
     for(var j = 0; j < tdArray.length; j++){
       for(var k = 0; k < tdArray.length; k++){
-        tdArray[i][j][k] = getRandom(0, 9);
+        tdArray[i][j][k] = getRandom(min, max);
       }
     }
   }
 }
 
+/**
+ * Returns sum of elements in every column in k-projection
+ */
 function sumColumnK(tdArray){
   let result = create2DArray(tdArray.length);
   for(var i = 0; i < tdArray.length; i++){
@@ -55,6 +74,9 @@ function sumColumnK(tdArray){
   return result;
 }
 
+/**
+ * Returns sum of elements in every column in i-projection
+ */
 function sumColumnI(tdArray){
   let result = create2DArray(tdArray.length);
   for(var i = 0; i < tdArray.length; i++){
@@ -68,6 +90,9 @@ function sumColumnI(tdArray){
   return result;
 }
 
+/**
+ * Returns sum of elements in every column in j-projection
+ */
 function sumColumnJ(tdArray){
   let result = create2DArray(tdArray.length);
   for(var i = 0; i < tdArray.length; i++){
@@ -81,6 +106,10 @@ function sumColumnJ(tdArray){
   return result;
 }
 
+/**
+ * Returns object of indexes of max value in given array.
+ * Returning object has attributes: i, j.
+ */
 function findMaxCol(array){
   var index = {}, max = 0;
   for(var i = 0; i < array.length; i++){
@@ -95,11 +124,13 @@ function findMaxCol(array){
   return index;
 }
 
+/**
+ * Returns array of object with coordinates of columns,
+ * that gives maximum sum of elements.
+ */
 function findPerpendicular(cube){
-  init(cube);
-  printArray(cube);
-  console.log();
-
+  
+  //getting an array of intermediate results and print it
   var resultk = sumColumnK(cube);
   printArray(resultk);
   console.log();
@@ -109,6 +140,8 @@ function findPerpendicular(cube){
   var resultj = sumColumnJ(cube);
   printArray(resultj);
 
+  //getting the final results and format it depending on
+  //projection
   var res1 = findMaxCol(resultk);
   res1.k = 0;
   var res2 = findMaxCol(resulti);
@@ -119,12 +152,19 @@ function findPerpendicular(cube){
   res3.j = res3.i;
   res3.i = 0;
 
+  //forming array of results
   var result = [res1, res2, res3];
 
   return result;
 }
 
+/**
+ * Exports function for outer access
+ */
 module.exports = {
+  create2DArray : create2DArray,
   create3DArray : create3DArray,
-  findPerpendicular : findPerpendicular
+  findPerpendicular : findPerpendicular,
+  init : init,
+  printArray : printArray
 }
